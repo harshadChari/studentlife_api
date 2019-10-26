@@ -16,11 +16,14 @@
   $Semester = new Semester($db);
 
   // Get raw Semestered data
-  $data = json_decode(file_get_contents("php://input"));
-  $form_fields = ['user_id','title','start_date','end_date','status']; 
+  #$data = json_decode(file_get_contents("php://input"));
+  $data = json_decode(json_encode($_POST));
+
+  $form_fields = ['user_id','title','start_date','end_date']; 
+ 
   foreach($form_fields as $field){
-   
-    $Semester->field = $data[$field];
+    echo $field.":".$data->$field."\n";
+    $Semester->$field = $data->$field;
    }
 
   // Create Semester
