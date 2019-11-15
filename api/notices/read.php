@@ -47,11 +47,13 @@
     }
 
     // Turn to JSON & output
-    echo json_encode($Notices_arr);
+    $response["error"] = false;
+    $response["notices"] = $Notices_arr;
+    echo json_encode($response);
 
   } else {
     // No Notices
-    echo json_encode(
-      array('message' => 'No Notices Found')
-    );
+    $response["error"] = true;
+    $response["msg"] = 'No Notices Found';
+    echo json_encode($response);
   }

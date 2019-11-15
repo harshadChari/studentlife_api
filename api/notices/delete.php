@@ -2,7 +2,7 @@
   // Headers
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
-  header('Access-Control-Allow-Methods: DELETE');
+  header('Access-Control-Allow-Methods: GET');
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
@@ -17,17 +17,21 @@
 
     // Get ID
     $Notice->id = isset($_GET['id']) ? $_GET['id'] : die();
-
- 
-
+	
+	var_dump($Notice->id );
   // Delete Notice
   if($Notice->delete()) {
-    echo json_encode(
-      array('message' => 'Notice Deleted')
-    );
+	  $response["error"] = false;
+	  $response["msg"] = 'Notice Deleted';
+	  $response["id"] = $Notice->id;
+   
   } else {
-    echo json_encode(
-      array('message' => 'Notice Not Deleted')
-    );
+	  $response["error"] = false;
+	  $response["msg"] = 'Notice Not Deleted';
+   
   }
+  
+  echo json_encode($response);
+  
+  
 

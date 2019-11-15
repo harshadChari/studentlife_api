@@ -21,18 +21,19 @@
   $form_fields = ['user_id','title','content'];
  
   foreach($form_fields as $field){
-    echo $field.":".$data->$field."\n";
     $Notice->$field = $data->$field;
    }
 
   // Create Notice
   if($Notice->create()) {
-    echo json_encode(
-      array('message' => 'Notice Created')
-    );
+
+    $response["error"] = false;
+    $response["msg"] = "Notice Created";
+	$response["id"] = $Notice->id;	
   } else {
-    echo json_encode(
-      array('message' => 'Notice Not Created')
-    );
+    $response["error"] = true;
+    $response["msg"] = 'Notice Not Created';    
   }
+
+  echo json_encode($response);
 
