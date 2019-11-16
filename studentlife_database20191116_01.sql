@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2019 at 07:55 PM
+-- Generation Time: Nov 16, 2019 at 03:14 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.32
 
@@ -21,6 +21,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `studentlife`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notices`
+--
+
+CREATE TABLE `notices` (
+  `id` varchar(23) NOT NULL,
+  `user_id` varchar(23) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `content` text NOT NULL,
+  `document_path` varchar(250) DEFAULT NULL,
+  `access` tinyint(4) NOT NULL DEFAULT 0,
+  `group_id` varchar(23) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `notices`
+--
+
+INSERT INTO `notices` (`id`, `user_id`, `title`, `content`, `document_path`, `access`, `group_id`) VALUES
+('5dce68d0eee9c1.83952313', '5dc254f7746a16.79451858', 'Complete Api', 'You must finish this api in 45 minutes or else you will need more time you lazy rascal.', NULL, 0, NULL),
+('5dce7648b60b69.66389128', '5dc254f7746a16.79451858', 'almost done', 'yippee', NULL, 0, NULL),
+('5dce7675dfb516.40967842', '5dc254f7746a16.79451858', 'last', 'one', NULL, 0, NULL),
+('5dce78ba3e5f18.43489291', '5dc254f7746a16.79451858', 'ss', 'nn', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -53,6 +79,13 @@ CREATE TABLE `semester` (
   `end_date` date NOT NULL,
   `status` varchar(15) NOT NULL DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `semester`
+--
+
+INSERT INTO `semester` (`id`, `user_id`, `title`, `start_date`, `end_date`, `status`) VALUES
+('5db48f864c6359.50848401', '5dada8ebc2d567.20749654', 'sem 1', '2019-07-12', '2019-10-28', 'active');
 
 -- --------------------------------------------------------
 
@@ -110,11 +143,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `unique_id`, `name`, `email`, `encrypted_password`, `salt`, `created_at`, `updated_at`) VALUES
-(1, '5dada8ebc2d567.20749654', 'user one', 'userone@email.com', '3nQoM61r3f3O5LKWcuWG283P+KNlMDVkYmZmNzg1', 'e05dbff785', '2019-10-21 18:17:39', NULL);
+(1, '5dada8ebc2d567.20749654', 'user one', 'userone@email.com', '3nQoM61r3f3O5LKWcuWG283P+KNlMDVkYmZmNzg1', 'e05dbff785', '2019-10-21 18:17:39', NULL),
+(2, '5dc254f7746a16.79451858', 'user two', 'usertwo@email.com', 'jTz/ideNrIhycNd0OpF/zWUUEhU0NDViYjEyYTRi', '445bb12a4b', '2019-11-06 10:37:03', NULL),
+(3, '5dc9068a8eea27.66857900', 'user three', 'userthree@email.com', 'muIc5IFGowsXL7BrHuBhnIlrEm41OGJhODFjNDRm', '58ba81c44f', '2019-11-11 12:28:18', NULL);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `notices`
+--
+ALTER TABLE `notices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `period`
@@ -161,11 +203,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `notices`
+--
+ALTER TABLE `notices`
+  ADD CONSTRAINT `notices_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`unique_id`);
 
 --
 -- Constraints for table `period`
