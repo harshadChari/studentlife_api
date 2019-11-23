@@ -18,7 +18,7 @@
     // Get ID
     $Notice->id = isset($_GET['id']) ? $_GET['id'] : die();
 	
-	var_dump($Notice->id );
+	//var_dump($Notice->id );
   // Delete Notice
   if($Notice->delete()) {
 	  $response["error"] = false;

@@ -1,18 +1,15 @@
 <?php
-  class Notice
+  class Group
   {
       // DB stuff
       private $conn;
-      private $table = 'notices';
+      private $table = 'groups';
 
       // Post Properties
       public $id;
+      public $name;
+      public $created_at;
       public $user_id;
-      public $title;
-      public $content;
-      public $document_path;
-      public $access;
-      public $group_id;
 
 
       // Constructor with DB
@@ -21,7 +18,7 @@
           $this->conn = $db;
       }
 
-      // Get Notices by user_id
+      // Get Groups by user_id
       public function read()
       {
           // Create query
@@ -41,47 +38,8 @@
 
           return $stmt;
       }
-	  
-	   // Get Notices by group_id
-      public function read_by_group()
-      {
-          // Create query
-          $query = '
-          SELECT *
-          FROM ' . $this->table . ' 
-          WHERE group_id = ?';
-      
-          // Prepare statement
-          $stmt = $this->conn->prepare($query);
 
-          // Bind ID
-          $stmt->bindParam(1, $this->group_id);
-
-          // Execute query
-          $stmt->execute();
-
-          return $stmt;
-      }
-
-	  public function getCount()
-      {
-          // Create query
-          $query = '
-          SELECT count(*) as count
-          FROM ' . $this->table;
-      
-          // Prepare statement
-          $stmt = $this->conn->prepare($query);
-
-          // Bind ID
-          $stmt->bindParam(1, $this->group_id);
-
-          // Execute query
-          $stmt->execute();
-			$row = $stmt->fetch(PDO::FETCH_ASSOC);
-          return $row;
-      }
-      // Get Single Notice
+      // Get Single Group
       public function read_single()
       {
           // Create query
@@ -102,35 +60,19 @@
           $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
           // Set properties
+          $this->id = $row['id'];
+          $this->name = $row['name'];
+          $this->created_at = $row['created_at'];
           $this->user_id = $row['user_id'];
-          $this->title = $row['title'];
-          $this->content = $row['content'];
-          $this->document_path = $row['document_path'];
-          $this->access = $row['access'];
-          $this->group_id = $row['group_id'];
       }
 
-      // Create Notice
-      public function create($post=null,$image = null)
-      {      
+      // Create Group
+      public function create()
+      {        
       
           // set valid fields
-          $fields = ['id','user_id','title','content'];
-          $form_fields = ['user_id','title','content'];
-		  
-		  if($post!=null){
-			   $extra_fields = ['access','group_id'];
-			   foreach ($extra_fields as $ef) {
-				 array_push($fields,$ef); 
-				 array_push($form_fields,$ef); 
-							 
-			   }
-		  }
-		  
-		  if($image!=null){
-			   array_push($fields,'document_path'); 
-				 array_push($form_fields,'document_path'); 
-		  }
+          $fields = ['id','name','user_id'];
+          $form_fields = ['name','user_id'];
 
           // Create query
           $query = '
@@ -171,12 +113,8 @@
 
           return false;
       }
-	  
-	
-	  
-	  
 
-       // Delete Notice
+       // Delete Group
        public function delete()
        {
            // Create query
